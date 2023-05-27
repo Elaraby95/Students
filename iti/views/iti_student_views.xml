@@ -1,0 +1,138 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<odoo>
+    <data>
+
+        <record id="students_tree_view" model="ir.ui.view">
+            <field name="name">Students Tree View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="birth_date"/>
+                    <field name="salary"/>
+                    <field name="tax"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_view_kanban" model="ir.ui.view">
+            <field name="name">iti.student.kanban</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+                                            <field name="image" widget="image"/>
+                                        </li>
+                                        <li>
+                                            <h3>Name:
+                                                <field name="name"/>
+                                            </h3>
+                                        </li>
+                                        <li>
+                                            <h3>Salary:
+                                                <field name="salary"/>
+                                            </h3>
+                                        </li>
+                                        <li>
+                                            <h3>Tax:
+                                                <field name="tax"/>
+                                            </h3>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="students_form_view" model="ir.ui.view">
+            <field name="name">Students Form View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="set first interview" type="object" name="set_first"
+                                states="applied"/>
+                        <button string="set second interview" name="set_second" type="object"
+                                states="first"/>
+                        <button string="passed" type="object" name="set_passed"
+                                states="second"/>
+                        <button string="rejected" type="object" name="set_rejected"
+                                states="second"/>
+                        <button string="back to first" type="object" name="set_back"
+                                states="rejected,passed"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft, approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Basic Info">
+                                <field name="name"/>
+                                <field name="email"/>
+                                <field name="gender" widget="radio"/>
+                                <field name="salary"/>
+                                <field name="tax"/>
+                                <field name="birth_date"
+                                       attrs="{'invisible': [('gender','=','f')]}"/>
+                                <field name="skill_id" widget="many2many_tags"/>
+                                <field name="accepted"/>
+                                <field name="level"/>
+                                <field name="login_time"/>
+                                <field name="track_id" domain="[('is_open','=',True)]"/>
+                                <field name="track_capacity"/>
+                                <field name="state"/>
+                            </group>
+                            <group string="Iti Info">
+                                <field name="image" widget="image"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cv">
+                                <group>
+                                    <field name="cv"/>
+                                </group>
+                            </page>
+                            <page string="Address">
+                                <group>
+                                    <field name="address"/>
+                                </group>
+                            </page>
+                            <page string="Grades">
+                                <field name="grade_ids">
+                                    <!--                                    <tree>-->
+                                    <!--                                        <field name="students_id"/>-->
+                                    <!--                                        <field name="course_id"/>-->
+                                    <!--                                        <field name="grade"/>-->
+                                    <!--                                    </tree>-->
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="students_action" model="ir.actions.act_window">
+            <field name="name">Students</field>
+            <field name="res_model">iti.student</field>
+            <field name="target">current</field>
+<!--            <field name="target">new</field>-->
+            <field name="view_mode">tree,kanban,form</field>
+        </record>
+
+
+        <menuitem id="iti_root" name="ITI"/>
+        <menuitem id="iti_students_menu" name="Students"
+                  parent="iti_root" action="students_action"/>
+
+    </data>
+</odoo>
+

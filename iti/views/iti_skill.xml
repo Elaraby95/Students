@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="skill_action" model="ir.actions.act_window">
+            <field name="name">Skills</field>
+            <field name="res_model">iti.skill</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="skill_view" model="ir.ui.view">
+            <field name="name">skill view</field>
+            <field name="model">iti.skill</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name ="name"/>
+                            <field name ="student_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <menuitem id="skill_menu" name="skill"
+                  parent="iti_root" action="skill_action"/>
+    </data>
+</odoo>
